@@ -10,20 +10,17 @@ import {
   getUsername,
 } from '../../services/auth.service';
 
-// Definisikan tipe untuk data login yang dikirim
 interface LoginData {
   username?: string;
   password?: string;
 }
 
-// Definisikan bentuk dari state otentikasi
 interface AuthState {
   user: string | null;
   loading: boolean;
   error: string | null;
 }
 
-// Thunk untuk menangani login asinkron
 export const loginUser = createAsyncThunk<
   string,
   LoginData,
@@ -32,10 +29,10 @@ export const loginUser = createAsyncThunk<
   try {
     const token = await loginService(data);
     localStorage.setItem('token', token);
-    return getUsername(token); // Akan menjadi action.payload saat fulfilled
+    return getUsername(token);
   } catch (error: any) {
     const errorMessage = error.response?.data || 'Invalid credentials';
-    return rejectWithValue(errorMessage); // Akan menjadi action.payload saat rejected
+    return rejectWithValue(errorMessage);
   }
 });
 
@@ -49,7 +46,6 @@ if (token) {
   }
 }
 
-// Berikan tipe pada initialState
 const initialState: AuthState = {
   user: initialUser,
   loading: false,

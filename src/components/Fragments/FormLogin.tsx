@@ -2,10 +2,9 @@ import { TextField, Button, Box } from '@mui/material';
 import React from 'react';
 import AuthLayout from '../Layouts/AuthLayout';
 
-// Definisikan tipe untuk props, termasuk onSubmit
 interface FormLoginProps {
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-  children: React.ReactNode; // Untuk menampung tombol atau elemen lain
+  children: React.ReactNode;
 }
 
 const FormLogin = React.forwardRef<HTMLInputElement, FormLoginProps>(
@@ -21,7 +20,7 @@ const FormLogin = React.forwardRef<HTMLInputElement, FormLoginProps>(
             label='Username'
             name='username'
             autoFocus
-            inputRef={ref} // Gunakan 'inputRef' untuk meneruskan ref ke elemen input
+            inputRef={ref}
           />
           <TextField
             margin='normal'
@@ -33,7 +32,7 @@ const FormLogin = React.forwardRef<HTMLInputElement, FormLoginProps>(
             id='password'
             autoComplete='current-password'
           />
-          {children} {/* Tombol atau error message akan dirender di sini */}
+          {children}
           {/* <Button
             type='submit'
             fullWidth

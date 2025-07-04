@@ -16,12 +16,10 @@ const LoginPage = () => {
   const usernameRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    // Fokus pada input username saat komponen pertama kali dimuat
     usernameRef.current?.focus();
   }, []);
 
   useEffect(() => {
-    // Arahkan ke halaman produk jika user sudah login
     if (user) {
       navigate('/products');
     }
