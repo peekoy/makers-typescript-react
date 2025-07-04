@@ -1,5 +1,3 @@
-// src/pages/ProductsPage.tsx
-
 import { useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {

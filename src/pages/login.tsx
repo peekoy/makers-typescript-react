@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Alert, CircularProgress } from '@mui/material';
 
-import FormLogin from '../components/Fragments/FormLogin'; // Pastikan path benar
+import FormLogin from '../components/Fragments/FormLogin';
 import { loginUser } from '../redux/auth/authSlice';
-import type { RootState, AppDispatch } from '../redux/store'; // Impor tipe untuk state dan dispatch
+import type { RootState, AppDispatch } from '../redux/store';
 
 const LoginPage = () => {
   const dispatch: AppDispatch = useDispatch();

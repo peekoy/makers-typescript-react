@@ -1,5 +1,3 @@
-// src/redux/auth/authSlice.ts
-
 import {
   createSlice,
   createAsyncThunk,
