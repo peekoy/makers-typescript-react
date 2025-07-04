@@ -23,7 +23,6 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useSelector, useDispatch } from 'react-redux';
-
 import CardProduct from '../components/Fragments/CardProduct';
 import { useProducts } from '../hooks/useProduct';
 import type { RootState, AppDispatch } from '../redux/store';

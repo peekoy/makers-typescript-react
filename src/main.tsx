@@ -11,6 +11,11 @@ import LoginPage from './pages/login';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
 import RegisterPage from './pages/register';
+import ProductsPage from './pages/products';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { CssBaseline } from '@mui/material';
+
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   {
@@ -25,12 +30,19 @@ const router = createBrowserRouter([
     path: '/register',
     element: <RegisterPage />,
   },
+  {
+    path: '/products',
+    element: <ProductsPage />,
+  },
 ]);
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <CssBaseline />
+        <RouterProvider router={router} />
+      </QueryClientProvider>
     </Provider>
   </StrictMode>
 );
