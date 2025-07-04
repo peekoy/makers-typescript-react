@@ -1,35 +1,35 @@
-import React, { type ReactNode, type ErrorInfo } from 'react';
-import { Box, Alert, AlertTitle } from '@mui/material';
+import { Component, type ErrorInfo, type ReactNode } from 'react';
+import {
+  Box,
+  Typography,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Alert,
+  AlertTitle,
+} from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-interface ErrorBoundaryProps {
+interface Props {
   children: ReactNode;
-  showDetails?: boolean;
 }
 
-interface ErrorBoundaryState {
+interface State {
   hasError: boolean;
-  error: Error | null;
-  errorInfo: ErrorInfo | null;
+  error?: Error;
+  errorInfo?: ErrorInfo;
 }
 
-class ErrorBoundary extends React.Component<
-  ErrorBoundaryProps,
-  ErrorBoundaryState
-> {
-  constructor(props: ErrorBoundaryProps) {
-    super(props);
-    this.state = {
-      hasError: false,
-      error: null,
-      errorInfo: null,
-    };
-  }
+class ErrorBoundary extends Component<Props, State> {
+  public state: State = {
+    hasError: false,
+  };
 
-  static getDerivedStateFromError(error: Error): Partial<ErrorBoundaryState> {
+  public static getDerivedStateFromError(_: Error): State {
     return { hasError: true };
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+  public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('Uncaught error:', error, errorInfo);
     this.setState({
       error: error,
@@ -37,35 +37,59 @@ class ErrorBoundary extends React.Component<
     });
   }
 
-  render() {
+  public render() {
     if (this.state.hasError) {
       return (
         <Box
-          display='flex'
-          justifyContent='center'
-          alignItems='center'
-          minHeight='100vh'
-          textAlign='center'
-          p={2}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: '100vh',
+            textAlign: 'center',
+            p: 3,
+          }}
         >
-          <Alert severity='error'>
-            <AlertTitle>Oops! Something went wrong.</AlertTitle>
-            We are sorry for the inconvenience. Please try refreshing the page.
-            {this.props.showDetails && this.state.error && (
-              <details
-                style={{
-                  whiteSpace: 'pre-wrap',
-                  textAlign: 'left',
-                  marginTop: '16px',
-                }}
-              >
-                <summary>Error Details</summary>
-                {this.state.error.toString()}
-                <br />
-                {this.state.errorInfo?.componentStack}
-              </details>
-            )}
+          <Alert
+            severity='error'
+            sx={{ mb: 3, width: '100%', maxWidth: '600px' }}
+          >
+            <AlertTitle>Oops! Terjadi Kesalahan</AlertTitle>
+            <Typography variant='body1'>
+              Maaf atas ketidaknyamanannya. Silakan coba segarkan halaman.
+            </Typography>
           </Alert>
+
+          {this.state.error && (
+            <Accordion sx={{ width: '100%', maxWidth: '600px' }}>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls='panel1a-content'
+                id='panel1a-header'
+              >
+                <Typography>Detail Kesalahan</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Box sx={{ textAlign: 'left', whiteSpace: 'pre-wrap' }}>
+                  <Typography
+                    variant='body2'
+                    component='pre'
+                    sx={{ fontFamily: 'monospace' }}
+                  >
+                    {this.state.error.toString()}
+                  </Typography>
+                  <Typography
+                    variant='body2'
+                    component='pre'
+                    sx={{ fontFamily: 'monospace', mt: 2 }}
+                  >
+                    {this.state.errorInfo?.componentStack}
+                  </Typography>
+                </Box>
+              </AccordionDetails>
+            </Accordion>
+          )}
         </Box>
       );
     }
