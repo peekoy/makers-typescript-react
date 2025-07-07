@@ -41,7 +41,7 @@ const Header = memo(({ id, image }: HeaderProps) => {
           height: 190,
         }}
         image={image}
-        alt=''
+        alt='product'
       />
     </Link>
   );
