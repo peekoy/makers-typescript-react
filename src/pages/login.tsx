@@ -1,29 +1,28 @@
 import React, { useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+// import { useNavigate } from 'react-router-dom';
 import { Button, Alert, CircularProgress } from '@mui/material';
-
 import FormLogin from '../components/Fragments/FormLogin';
-import { loginUser } from '../redux/auth/authSlice';
-import type { RootState, AppDispatch } from '../redux/store';
+import { useLogin } from '../hooks/useAuth';
+
+// redux
+// import { useDispatch, useSelector } from 'react-redux';
+// import { loginUser } from '../redux/auth/authSlice';
+// import type { RootState, AppDispatch } from '../redux/store';
 
 const LoginPage = () => {
-  const dispatch: AppDispatch = useDispatch();
-  const navigate = useNavigate();
-  const { user, loading, error } = useSelector(
-    (state: RootState) => state.auth
-  );
+  // redux
+  // const dispatch: AppDispatch = useDispatch();
+  // const { user, loading, error } = useSelector(
+  //   (state: RootState) => state.auth
+  // );
+
+  const { mutate: login, isPending, isError, error } = useLogin();
+  // const navigate = useNavigate();
   const usernameRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     usernameRef.current?.focus();
   }, []);
-
-  useEffect(() => {
-    if (user) {
-      navigate('/products');
-    }
-  }, [user, navigate]);
 
   const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -31,24 +30,24 @@ const LoginPage = () => {
     const username = data.get('username') as string;
     const password = data.get('password') as string;
 
-    dispatch(loginUser({ username, password }));
+    login({ username, password });
   };
 
   return (
     <FormLogin onSubmit={handleLogin} ref={usernameRef}>
-      {error && (
+      {isError && (
         <Alert severity='error' sx={{ width: '100%', mt: 2 }}>
-          {error}
+          {error?.message || 'Invalid credentials'}
         </Alert>
       )}
       <Button
         type='submit'
         fullWidth
         variant='contained'
-        disabled={loading}
+        disabled={isPending}
         sx={{ mt: 3, mb: 2 }}
       >
-        {loading ? <CircularProgress size={24} color='inherit' /> : 'Login'}
+        {isPending ? <CircularProgress size={24} color='inherit' /> : 'Login'}
       </Button>
     </FormLogin>
   );

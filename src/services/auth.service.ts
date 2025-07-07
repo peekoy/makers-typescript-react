@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 
-interface LoginCredentials {
+export interface LoginCredentials {
   username?: string;
   password?: string;
 }
