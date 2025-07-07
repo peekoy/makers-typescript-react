@@ -26,6 +26,7 @@ import { useProducts } from '../hooks/useProduct';
 import type { RootState, AppDispatch } from '../redux/store';
 import { logout } from '../redux/auth/authSlice';
 import { useCartStore } from '../zustand/cartStore';
+import { Helmet } from 'react-helmet-async';
 
 const ProductsPage = () => {
   const navigate = useNavigate();
@@ -71,6 +72,16 @@ const ProductsPage = () => {
 
   return (
     <>
+      <Box>
+        <Helmet>
+          <title data-testid='helmet-title'>Products | My E-Commerce</title>
+          <meta
+            name='description'
+            content='Jelajahi berbagai produk berkualitas tinggi di toko kami.'
+          />
+        </Helmet>
+      </Box>
+
       <AppBar position='static'>
         <Toolbar>
           <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>

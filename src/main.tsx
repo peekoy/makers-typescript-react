@@ -1,4 +1,4 @@
-import { StrictMode, lazy } from 'react';
+import { StrictMode, lazy, Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
   createBrowserRouter,
@@ -10,6 +10,7 @@ import { store } from './redux/store';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { CssBaseline } from '@mui/material';
 import ErrorBoundary from './components/Fragments/ErrorBoundary';
+import { HelmetProvider } from 'react-helmet-async';
 
 const LoginPage = lazy(() => import('./pages/login'));
 const RegisterPage = lazy(() => import('./pages/register'));
@@ -50,7 +51,11 @@ createRoot(document.getElementById('root')!).render(
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <CssBaseline />
-        <RouterProvider router={router} />
+        <HelmetProvider>
+          <Suspense fallback={<div>Loading...</div>}>
+            <RouterProvider router={router} />
+          </Suspense>
+        </HelmetProvider>
       </QueryClientProvider>
     </Provider>
   </StrictMode>

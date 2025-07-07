@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import { Button, Alert, CircularProgress } from '@mui/material';
 import FormLogin from '../components/Fragments/FormLogin';
 import { useLogin } from '../hooks/useAuth';
+import { Helmet } from 'react-helmet-async';
 
 // redux
 // import { useDispatch, useSelector } from 'react-redux';
@@ -34,22 +35,31 @@ const LoginPage = () => {
   };
 
   return (
-    <FormLogin onSubmit={handleLogin} ref={usernameRef}>
-      {isError && (
-        <Alert severity='error' sx={{ width: '100%', mt: 2 }}>
-          {error?.message || 'Invalid credentials'}
-        </Alert>
-      )}
-      <Button
-        type='submit'
-        fullWidth
-        variant='contained'
-        disabled={isPending}
-        sx={{ mt: 3, mb: 2 }}
-      >
-        {isPending ? <CircularProgress size={24} color='inherit' /> : 'Login'}
-      </Button>
-    </FormLogin>
+    <>
+      <Helmet>
+        <title data-testid='helmet-title'>Login | My E-Commerce</title>
+        <meta
+          name='description'
+          content='Jelajahi berbagai produk berkualitas tinggi di toko kami.'
+        />
+      </Helmet>
+      <FormLogin onSubmit={handleLogin} ref={usernameRef}>
+        {isError && (
+          <Alert severity='error' sx={{ width: '100%', mt: 2 }}>
+            {error?.message || 'Invalid credentials'}
+          </Alert>
+        )}
+        <Button
+          type='submit'
+          fullWidth
+          variant='contained'
+          disabled={isPending}
+          sx={{ mt: 3, mb: 2 }}
+        >
+          {isPending ? <CircularProgress size={24} color='inherit' /> : 'Login'}
+        </Button>
+      </FormLogin>
+    </>
   );
 };
 
